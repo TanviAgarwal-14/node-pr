@@ -52,16 +52,21 @@ const http = require('http');
 const server = http.createServer((req,res)=>{
     res.setHeader('Content-Type','text/html');
     if(req.url=="/login"){
-    res.write('<html><head><title> node js class</title></head><body>');
-    res.write('<h1> Hello, Login! </h1>');
-    res.write('</body></html>');
+    // res.write('<html><head><title> node js class</title></head><body>');
+    // res.write('<h1> Hello, Login! </h1>');
+    // res.write('</body></html>');
+        fs.readFileSync('login.html', (err, data)=>{
+            res.write(data);
+            res.end();
+        });
     }
     else{
-    res.write('<html><head><title> node js class</title></head><body>');
-    res.write('<h1> Hello, World! </h1>');
-    res.write('</body></html>');
+        fs.readFileSync('index.html', (err, data)=>{
+            res.write(data);
+            res.end();
+        });
     }
-    res.end();
+    // res.end();
 })
 
 const port= 3000;
