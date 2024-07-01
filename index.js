@@ -47,31 +47,37 @@ console.log(""+ data);
 // })
 //OR
 // fs.unlinkSync('file.txt');
-
 const http = require('http');
-const server = http.createServer((req,res)=>{
-    res.setHeader('Content-Type','text/html');
-    if(req.url=="/login"){
-    // res.write('<html><head><title> node js class</title></head><body>');
-    // res.write('<h1> Hello, Login! </h1>');
-    // res.write('</body></html>');
-        fs.readFileSync('login.html', (err, data)=>{
-            res.write(data);
-            res.end();
+
+const server = http.createServer((req, res) => {
+    res.setHeader('Content-Type', 'text/html');
+    
+    if(req.url === '/login') {
+        fs.readFile('login.html', function(err, data) {
+            if (err) {
+                res.writeHead(404);
+                res.end(JSON.stringify(err));
+                return;
+            }
+            res.writeHead(200);
+            res.end(data);
+        });
+    } else {
+        fs.readFile('index.html', function(err, data) {
+            if (err) {
+                res.writeHead(404);
+                res.end(JSON.stringify(err));
+                return;
+            }
+            res.writeHead(200);
+            res.end(data);
         });
     }
-    else{
-        fs.readFileSync('index.html', (err, data)=>{
-            res.write(data);
-            res.end();
-        });
-    }
-    // res.end();
-})
+});
 
-const port= 3000;
-const host= 'localhost';
+const port = 3000;
+const host = 'localhost';
 
-server.listen(port, host, () =>{
-    console.log(`Server is Listening on http://${host}:${port}`);
-})
+server.listen(port, host, () => {
+    console.log(`Server is listening on http://${host}:${port}/`);
+});
